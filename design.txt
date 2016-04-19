@@ -1,0 +1,44 @@
++ -> public
+- -> private
+
+class Document
+    - const String path
+
+    + function matches(const string[] keywords):
+        const int nbKeywords = keywords.size()
+        int nbMatched = 0
+        bool[nbKeywords]  matched
+
+        foreach item of matched:
+            item = false
+
+        string line = null
+        while line = readLine() AND nbMatched < nbKeywords
+            foreach keyword of keywords:
+                if matched[keyword.index] is false:
+                    matched[keyword.index] = line.matches(keyword)
+                    nbMatched += 1
+
+        return nbMatched
+
+
+    + function getPath():
+        return path
+
+
+class SearchEngine
+    - List<Document>  documents
+
+    + function search(const string query):
+        string[] keywords = query.split()
+
+        documents.sort( Document.matches(keywords) )
+        foreach doc of documents:
+            print(doc.getPath)
+        return
+
+    + function addDocument(const String path):
+        Document doc = new Document(path)
+        documents.pushBack(doc)
+        return
+
