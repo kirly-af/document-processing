@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -36,7 +35,7 @@ public class Document {
         this.keywords = keywords;
     }
 
-    public int match() {
+    public void match() {
         String line;
         try (BufferedReader in = new BufferedReader(new FileReader(path))) {
             for (int lineNb = 1; (line = in.readLine()) != null; ++lineNb) {
@@ -50,7 +49,6 @@ public class Document {
         catch (IOException e) {
             e.printStackTrace();
         }
-        return 0;
     }
 
     private void lineProcess(String line, int lineNb, String[] keywords) {
