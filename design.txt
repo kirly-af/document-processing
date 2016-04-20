@@ -1,44 +1,17 @@
-+ -> public
-- -> private
+keywords = split(query)
+documents = makeDocumentsList()
 
-class Document
-    - const String path
+FOREACH doc OF documents
+  doc.nbMatched = 0
+  REPEAT line = getLine(doc)
+    FOREACH kw OF keywords
+      idx = indexOf(kw, line)
+      IF isValidIndex(idx)
+        doc.nbMatched += 1
+  UNTIL EOF
 
-    + function matches(const string[] keywords):
-        const int nbKeywords = keywords.size()
-        int nbMatched = 0
-        bool[nbKeywords]  matched
+compareDocs(doc1, doc2) -> doc2.nbMatched - doc1.nbMatched
 
-        foreach item of matched:
-            item = false
+sort(documents, compareDocs)
 
-        string line = null
-        while line = readLine() AND nbMatched < nbKeywords
-            foreach keyword of keywords:
-                if matched[keyword.index] is false:
-                    matched[keyword.index] = line.matches(keyword)
-                    nbMatched += 1
-
-        return nbMatched
-
-
-    + function getPath():
-        return path
-
-
-class SearchEngine
-    - List<Document>  documents
-
-    + function search(const string query):
-        string[] keywords = query.split()
-
-        documents.sort( Document.matches(keywords) )
-        foreach doc of documents:
-            print(doc.getPath)
-        return
-
-    + function addDocument(const String path):
-        Document doc = new Document(path)
-        documents.pushBack(doc)
-        return
-
+PRINT documents
